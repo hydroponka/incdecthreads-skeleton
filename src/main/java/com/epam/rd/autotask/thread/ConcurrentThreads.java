@@ -12,7 +12,6 @@ public class ConcurrentThreads {
         // place your code here
     }
 
-
     /**
      * In a loop decrements {@code N} times the {@code value}.
      */
@@ -20,7 +19,7 @@ public class ConcurrentThreads {
 
         @Override
         public void run() {
-        // place your code here
+            // place your code here
         }
     }
 
@@ -36,19 +35,21 @@ public class ConcurrentThreads {
 
     /**
      * Creates two threads and then runs them.
+     *
      * @return the {@code value} after the threads are finished.
      */
     public static long test() {
         value = 0;
-        // ----- replace by your code here
-
+        // ----------
+        // replace your code here
         Thread t1 = null;
         Thread t2 = null;
+        // ----------
 
-        // -----
         wait(t1, t2);
-        return value;
+        return value; // r.nextInt(50); //
     }
+
 
     public static void main(String[] args) {
         // example for running task

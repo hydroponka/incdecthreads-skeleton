@@ -12,23 +12,49 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.tngtech.archunit.base.DescribedPredicate.describe;
 import static com.tngtech.archunit.core.domain.JavaCall.Predicates.target;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ConcurrentThreadsTest {
 
-    @ParameterizedTest
-    @CsvSource({"5"})
-    void testValues(int count) {
-        double sum = IntStream.range(0, count).map(i -> (int) ConcurrentThreads.test()).sum();
-        System.out.println(sum);
-        assertNotEquals(0, sum);
+    @Test
+    void testValues() {
+        Map<Long, Integer> map = new HashMap<>();
+        IntStream.iterate(3, i -> i + 2)
+                .limit(5)
+                .forEach(count ->
+                        testValues(count).forEach((k, v) -> map.merge(k, v, Integer::sum)));
+        System.out.println(map);
+        assertNotNull(map.get(0L));
+        assertNotNull(map.get(1L));
+    }
+
+    Map<Long, Integer> testValues(int count) {
+        ExecutorService pool = Executors.newSingleThreadExecutor(r -> {
+            Thread t = new Thread(r);
+            t.setPriority(1);
+            return t;
+        });
+        Map<Long, Integer> collect;
+        return IntStream.range(0, count).mapToLong(i -> {
+                    try {
+                        return pool.submit(ConcurrentThreads::test).get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .boxed()
+                .collect(Collectors.groupingBy(v -> v.equals(0L) ? 0L : 1L))
+                .entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().size()));
     }
 
     @Test
@@ -55,7 +81,8 @@ class ConcurrentThreadsTest {
                 .collect(Collectors.toSet());
         assertNotEquals(Optional.empty(), threads,
                 "It looks like you don't starts threads correctly");
-        assertEquals(2, threads.size());
+        assertEquals(2, threads.size(),
+                "It looks like you don't starts threads correctly");
     }
 
     ArchRule ruleNoSync = noClasses()
@@ -63,8 +90,8 @@ class ConcurrentThreadsTest {
             .callMethodWhere(target(describe("Methods Tread#setName() should not be used",
                     target -> (
                             "join".equals(target.getName()) ||
-                            "sleep".equals(target.getName()) ||
-                            "interrupt".equals(target.getName())
+                                    "sleep".equals(target.getName()) ||
+                                    "interrupt".equals(target.getName())
                     ) &&
                             target.getOwner().isAssignableTo(Thread.class)
             )));
@@ -79,7 +106,7 @@ class ConcurrentThreadsTest {
             )));
 
     DescribedPredicate<JavaAccess<?>> isForeignClassPredicate =
-            new DescribedPredicate<>("target is a foreign message class") {
+            new DescribedPredicate<>("target is a foreign class") {
 
                 @Override
                 public boolean test(JavaAccess<?> access) {
@@ -89,8 +116,9 @@ class ConcurrentThreadsTest {
                     String callerPackage = callerClass.getPackageName();
                     boolean equals = (targetPackage.equals(callerPackage) ||
                             targetPackage.equals("java.lang") ||
-                            targetPackage.equals("java.io") ) &&
-                            !targetPackage.startsWith("java.util");
+                            targetPackage.equals("java.io")) &&
+                            !(targetPackage.startsWith("java.util") ||
+                            targetPackage.startsWith("java.util.concurrent"));
                     return !equals;
                 }
             };
@@ -101,6 +129,12 @@ class ConcurrentThreadsTest {
     @Test
     void testCompliance() {
         testRules();
+        testInheritance();
+    }
+
+    void testInheritance() {
+        assertEquals(Thread.class, ConcurrentThreads.Increment.class.getSuperclass());
+        assertEquals(Object.class, ConcurrentThreads.Decrement.class.getSuperclass());
     }
 
     void testRules() {

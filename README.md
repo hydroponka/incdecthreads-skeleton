@@ -7,13 +7,16 @@ Duration **30 minutes**.
 
 ## Description 
 
-In this exercise you need to start threads in two ways.
+In this exercise, you need to start threads in two ways and take a look
+at the "_data race_" problem that can occur in parallel programming.
+In this exercise you will not solve the "data race" problem. 
+
 Proceed to `ConcurrentThreads` class, which in the `test()` method 
 creates and starts two threads.
 * `test()` \
-  creates and runs exactly two threads. The first is for the 
-  `Incrementor` class and the second for the `Decrementor`. 
-  Then executes `wait()` method and then returns `value`.
+  creates and executes exactly two threads. The first is for the 
+  `Increment` class, and the second is for the `Decrement` class. 
+  Then executes the `wait()` method and then returns the value.
 
 `Increment` class is the child of `Thread` class. 
 * `void run()` \
@@ -28,14 +31,19 @@ creates and starts two threads.
 The threads must run concurrently. Firstly create both objects and 
 only then run threads.
 
-It's ok if the result, _in this task_, is not zero after threads 
-are finished;
+It's OK if some results _in this task_ are non-zero after the threads 
+have finished. 
+
+> **Note**: \
+> The tests check whether both non-zero and zero results exist. 
+> You can use `runtests.cmd` to check if your code is passing 
+> the tests steadily before pushing your solution. 
+> It runs the tests 20 times.
 
 ### Restrictions
 
 You must not set names for threads.
 
-You are not allowed to use any classes from any packages except 
-`java.lang` package.
+You are not allowed to use any synchronization due the definition.
 
 > Do not use _daemon_ threads. 
