@@ -14,8 +14,6 @@ public class IncDecThreads {
         // TODO place your code here
     }
 
-//    static Lock lock = new ReentrantLock();
-
     /**
      * In a loop decrements {@code COUNT} times the {@code value}
      * and prints to the console the name of the class, the name of
