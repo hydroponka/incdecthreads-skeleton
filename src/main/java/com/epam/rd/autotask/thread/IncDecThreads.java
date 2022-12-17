@@ -2,13 +2,13 @@ package com.epam.rd.autotask.thread;
 
 public class IncDecThreads {
 
-    private static final int COUNT = 1000;
+    static final int COUNT = 1000;
     static long value;
 
     /**
      * In a loop increments {@code COUNT} times the {@code value}
      * and prints to the console the name of the class, the name of
-     * the thread and the `value`.
+     * the thread and the value of the field {@code value}.
      */
     static class Increment {
         // TODO place your code here
@@ -17,7 +17,7 @@ public class IncDecThreads {
     /**
      * In a loop decrements {@code COUNT} times the {@code value}
      * and prints to the console the name of the class, the name of
-     * the thread and the `value`.
+     * the thread and the value of the field {@code value}.
      */
     static class Decrement {
         // TODO place your code here
