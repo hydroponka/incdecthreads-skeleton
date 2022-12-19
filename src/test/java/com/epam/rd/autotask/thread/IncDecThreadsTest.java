@@ -19,7 +19,6 @@ import java.util.IntSummaryStatistics;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.epam.rd.autotask.thread.IncDecThreads.COUNT;
 import static com.tngtech.archunit.base.DescribedPredicate.describe;
 import static com.tngtech.archunit.core.domain.JavaCall.Predicates.target;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
@@ -31,6 +30,7 @@ public class IncDecThreadsTest {
     static final PrintStream SYS_OUT = System.out;
     static final String EOL = System.lineSeparator();
     static final long TEST_TIMEOUT = 1000 * 10; // 10 seconds
+    static final int COUNT = 5000;
     ByteArrayOutputStream bos;
     PrintStream out;
 
@@ -129,7 +129,7 @@ public class IncDecThreadsTest {
 
         String[] split = output.split(EOL);
         assertEquals(COUNT * 2, split.length,
-                "Each thread should prints exactly " + COUNT + "times.");
+                "Each thread should prints exactly " + COUNT + " times.");
         IntSummaryStatistics statistics = Arrays.stream(split)
                 .collect(Collectors.summarizingInt(s -> Integer.parseInt(s.split(" : ")[2])));
         int actual = Math.abs(statistics.getMax());

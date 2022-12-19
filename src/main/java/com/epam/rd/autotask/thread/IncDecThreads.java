@@ -2,7 +2,7 @@ package com.epam.rd.autotask.thread;
 
 public class IncDecThreads {
 
-    static final int COUNT = 1000;
+    static final int COUNT = 5000;
     static long value;
 
     /**
