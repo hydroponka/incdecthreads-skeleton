@@ -15,28 +15,28 @@ Now, please proceed to `IncDecThreads` class and implement the following content
 
 
 * `static class Increment` \
-  A thread class that is described by inheriting the `Thread` class. Its task in the loop at each iteration is to increase by one and output the value of the _value_ variable to the console. The names of the class and the thread are also printed to the console.
+  A thread class that is described by inheriting the `Thread` class. Its task in the loop at each iteration is to increase by one and output the value of the `value`variable to the console. The names of the class and the thread are also printed to the console.
 
 * `static class Decrement ` \
- A thread class that is described through an implementation of the `Runnable` interface. Its task in the loop at each iteration is to decrease by one and display the value of the _value_ variable in the console. The names of the class and the thread are also printed to the console.
+ A thread class that is described through an implementation of the `Runnable` interface. Its task in the loop at each iteration is to decrease by one and display the value of the `value` variable in the console. The names of the class and the thread are also printed to the cnsole.
 
 ### Details
 
-* 	The `IncDecThreads` class contains for static fields:  `COUNT` defines the number of iterations for threads, and `value`, a common variable that is handled by threads.
+* 	The `IncDecThreads` class contains  static fields:  `COUNT` defines the number of iterations for threads, and `value`, is a common variable that is handled by threads.
 * The threads must run concurrently. Run the threads only after both have been created.
 
 
 > **Note**: \
-> Launching the program several times may produce different output to the console. Moreover, the result of increment and decrement operations can be intermittent. This is fine because the virtual machine controls thread execution; you cannot influence this.
+> Launching the program several times may produce different outputs to the console. Moreover, the result of increment and decrement operations can be intermittent. This is fine because the virtual machine controls thread execution; you cannot influence this.
 
 ### Restrictions
 
 *	You must not set names for threads.
-*	You may not use any synchronization.
+*	You may not use synchronization.
 
-* Do not use ___daemon___ threads.
+* Do not use __daemon__ threads.
 
-### Example of output 
+## Example
 
 One of the options for executing the program
 ```
