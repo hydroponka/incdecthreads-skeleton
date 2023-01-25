@@ -18,7 +18,7 @@ Now, please proceed to `IncDecThreads` class and implement the following content
   A thread class that is described by inheriting the `Thread` class. Its task in the loop at each iteration is to increase by __1__ and output the value of the `value` variable to the console. The names of the class and the thread are also printed to the console.
 
 * `static class Decrement ` \
- A thread class that is described through an implementation of the `Runnable` interface. Its task in the loop at each iteration is to decrease by __1__ and display the value of the `value` variable in the console. The names of the class and the thread are also printed to the cnsole.
+ A thread class that is described through an implementation of the `Runnable` interface. Its task in the loop at each iteration is to decrease by __1__ and display the value of the `value` variable in the console. The names of the class and the thread are also printed to the console.
 
 ### Details
 
