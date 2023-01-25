@@ -22,7 +22,7 @@ Now, please proceed to `IncDecThreads` class and implement the following content
 
 ### Details
 
-* 	The `IncDecThreads` class contains  static fields:  `COUNT` defines the number of iterations for threads, and `value`, is a common variable that is handled by threads.
+* 	The `IncDecThreads` class contains  static fields:  `COUNT` defines the number of iterations for threads, and `value` is a common variable that is handled by threads.
 * The threads must run concurrently. Run the threads only after both have been created.
 
 
